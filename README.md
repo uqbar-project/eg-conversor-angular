@@ -24,6 +24,19 @@ Toda aplicación tiene
 - módulos, que agrupan funcionalidades
 - componentes, que encapsulan una asociación vista (HTML)-modelo (en este caso en TypeScript) y que por defecto vienen acompañados de tests (*.spec, en TypeScript). Opcionalmente también tenemos un archivo de estilos asociado (css)
 
+```
+(nodo raíz)
+ + src
+   + app
+     - app.component.css       -- estilo
+     - app.component.html      -- vista
+     - app.component.spec.ts   -- test
+     - app.component.ts        -- componente que relaciona vista y su modelo (un objeto de dominio)
+     - app.module.ts           -- módulo
+   + domain
+     - conversor.ts            -- objeto de dominio
+```
+
 Como es nuestra primer ejemplo, vamos a modificar el comportamiento de AppModule y AppComponent, que es el elemento inicial de nuestra aplicación en Angular. A futuro vamos a crear nuevos componentes y módulos.
 
 # Conceptos principales
@@ -36,8 +49,8 @@ sencillo que coincide con un objeto de negocio: un Conversor de millas a kilóme
 
 El _binding_ puede ser:
 
-- bidireccional, como en el caso de las millas, ya que un cambio en la vista puede provocar un cambio en su modelo, o bien un cambio en el modelo puede implicar que se dispare una actualización en la vista. 
-- unidireccional, como en el caso de los kilómetros, ya que en el formulario HTML solo se visualiza la información (el usuario no ingresa la información en este caso, así que solo el modelo actualiza la vista)
+- bidireccional, como en el caso de las **millas**, ya que un cambio en la vista puede provocar un cambio en su modelo, o bien un cambio en el modelo puede implicar que se dispare una actualización en la vista. 
+- unidireccional, como en el caso de los **kilómetros**, ya que en el formulario HTML solo se visualiza la información (el usuario no ingresa la información en este caso, así que solo el modelo actualiza la vista)
 
 Dado que el binding bidireccional tiene un costo (a medida que incorporamos más controles el sistema de notificaciones crece en complejidad), es importante diferenciar ambos tipos de binding:
 
@@ -61,7 +74,7 @@ export class AppComponent {
 }
 ```
 
-Es decir, el conversor es un objeto de dominio Conversor, cuya implementación no es nada sorprendente:
+La implementación del objeto de dominio Conversor no es nada sorprendente:
 
 ```typescript
 export default class Conversor {
@@ -81,7 +94,7 @@ export default class Conversor {
 Queremos validar
 
 - que no sea posible convertir un valor de milla nulo
-- que el usuario no pueda ingresar valores alfabéticos
+- que el usuario no pueda ingresar valores alfabéticos para la milla
 
 En caso de que alguno de esas condiciones ocurra, queremos mostrar un cartel de error representativo.
 
@@ -127,3 +140,6 @@ Para más información recomendamos leer [la página de validación de formulari
 
 Entonces el ngIf mostrará el contenedor div de html si la condición encerrada entre las comillas se cumple.
 
+## Testing
+
+TODO
