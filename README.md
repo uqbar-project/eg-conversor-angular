@@ -160,7 +160,17 @@ Y ahora sí podemos utilizarlo en la vista, dentro del binding unidireccional pa
 <p class="lead" *ngIf="!millas.errors">{{conversor.kilometros | number:'1.3-3':'es' }}</p>
 ```
 
-A continuación de conversor.kilometros, aparecen los "pipes" que le dan nombre al concepto que anteriormente se conocía como filter.
+Este concepto que anteriormente se conocía como filter permite dar formato al valor que se encuentra a la izquierda del pipe, en nuestro caso
+
+- el valor es conversor.kilometros
+- le aplicamos formato de número
+- con un dígito entero como mínimo
+- y con 3 dígitos decimales mínimos y máximos
+
+De esa manera el 0 se muestra como "0,000", y la conversión de 100 queda como se ve en la pantalla
+
+![imagen](images/conversor_pipes.png) 
+
 
 Para más información sobre los pipes que trae Angular pueden ver [esta página](https://angular.io/api?type=pipe)
 
