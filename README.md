@@ -140,6 +140,31 @@ Para más información recomendamos leer [la página de validación de formulari
 
 Entonces el ngIf mostrará el contenedor div de html si la condición encerrada entre las comillas se cumple.
 
+## Pipes
+
+Un concepto similar a los _transformers_ de Arena son los [_pipes_](https://angular.io/guide/pipes) que permiten definir un formato con n decimales con coma, en lugar del punto que por defecto muestra Angular. Para ello vamos a incorporar la configuración regional española (también llamado _locale_ es) en el app.module.ts:
+
+```typescript
+
+/** Registramos el locale ES para formatear números */
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
+/** Fin registración ES */
+``` 
+
+Y ahora sí podemos utilizarlo en la vista, dentro del binding unidireccional para kilómetros:
+
+```html
+<p class="lead" *ngIf="!millas.errors">{{conversor.kilometros | number:'1.3-3':'es' }}</p>
+```
+
+A continuación de conversor.kilometros, aparecen los "pipes" que le dan nombre al concepto que anteriormente se conocía como filter.
+
+Para más información sobre los pipes que trae Angular pueden ver [esta página](https://angular.io/api?type=pipe)
+
+
 ## Testing
 
 TODO
