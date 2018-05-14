@@ -279,3 +279,4 @@ El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los t
 ```
 
 El mensaje fixture.detectChanges() es necesario para disparar los eventos de actualización de modelo a vista propios de Angular.
+Para más información recomendamos leer [la documentación oficial de Angular](https://angular.io/guide/testing)
