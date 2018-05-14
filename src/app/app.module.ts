@@ -8,7 +8,7 @@ import { AppComponent } from './app.component'
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 
-registerLocaleData(localeEs);
+registerLocaleData(localeEs)
 /** Fin registración ES */
 
 @NgModule({

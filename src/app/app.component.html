@@ -11,7 +11,7 @@
                 <fieldset>
                     <div class="form-group">
                         <label for="millas">Millas</label>
-                        <input name="millas" class="form-control" required 
+                        <input name="millas" id="millas" class="form-control" required 
                             [(ngModel)]="conversor.millas" 
                             #millas="ngModel"
                             pattern="^[0-9]+$" 
@@ -29,10 +29,10 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="kilometros">Kilometros</label>
-                        <p class="lead" *ngIf="!millas.errors">{{conversor.kilometros | number:'1.3-3':'es' }}</p>
+                        <label for="kilometros">Kilómetros</label>
+                        <p class="lead" id="kilometros" *ngIf="!millas.errors">{{conversor.kilometros | number:'1.3-3':'es' }}</p>
                     </div>
-                    <button type="submit" class="btn btn-primary" (click)="conversor.convertir()">Convertir</button>
+                    <button type="submit" id="convertir" class="btn btn-primary" (click)="conversor.convertir()">Convertir</button>
                 </fieldset>
             </form>
         </div>

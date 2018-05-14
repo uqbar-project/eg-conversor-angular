@@ -8,6 +8,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Conversor'
-
   conversor = new Conversor()
 }
