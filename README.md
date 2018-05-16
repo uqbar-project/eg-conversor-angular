@@ -11,7 +11,7 @@ ng serve
 ```
 
 En el navegador cargar la página `http://localhost:4200/`
-
+ 
 ## Generación inicial del proyecto
 
 Seguimos los pasos que están en [la página de inicio de Angular](https://angular.io/guide/quickstart)
