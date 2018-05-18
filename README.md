@@ -46,6 +46,8 @@ Como es nuestra primer ejemplo, vamos a modificar el comportamiento de AppModule
 
 ## Binding entre vista y modelo
 
+![image](images/Arquitectura.png)
+
 El conversor tiene un formulario html que permite ingresar valores. El _binding_ permite
 relacionar un elemento visual con su correspondiente modelo de vista. En este caso el modelo de la vista es tan
 sencillo que coincide con un objeto de negocio: un Conversor de millas a kilómetros.
