@@ -201,11 +201,13 @@ Failed to execute 'send' on 'XMLHttpRequest': Failed to load 'ng:///DynamicTestM
 Un tema importante a la hora de correr los tests es que lo hacen en forma independiente de la aplicación Angular, por lo tanto debemos inyectar las dependencias que están en el @NgModule (recordemos que en este ejemplo es el archivo _app.module.ts_).
 
 ```typescript
+/** Imports extras tomados de @NgModule */
 import {FormsModule} from '@angular/forms' // necesario agregarlo aqui
 /** Registramos el locale ES para formatear números */
 import {CommonModule} from '@angular/common'
 import {registerLocaleData} from '@angular/common'
 import localeEs from '@angular/common/locales/es'
+/** Import a objeto de dominio Conversor */
 import Conversor from '../domain/conversor'
 ```
 
@@ -213,7 +215,7 @@ import Conversor from '../domain/conversor'
 - CommonModule, registerLocaleDate y localeEs tienen que ver con la conversión del formato de punto a coma decimal para mostrar los kilómetros: "160,934" en lugar de "160.934"
 - y por último, necesitamos acceder a nuestro objeto de dominio Conversor
 
-Además tenemos otros imports que se crean por defecto cuando generamos nuestra aplicación con el comando ng: nuestro componente AppComponent y un _mockeador_ de nuestros componente TestBed que más adelante explicaremos, entre otros.
+Además tenemos otros imports que se crean por defecto cuando generamos nuestra aplicación con el comando ng: nuestro componente AppComponent y un _mockeador_ de nuestro componente llamado TestBed que más adelante explicaremos, entre otros.
 
 Al igual que en @NgModule, debemos registrar el locale ES antes de comenzar los tests:
 
