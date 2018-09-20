@@ -13,7 +13,13 @@ Desde el raíz del proyecto, en una consola, ejecutar:
 ng serve
 ```
 
-En el navegador cargar la página `http://localhost:4200/`
+Y en el navegador cargar la página `http://localhost:4200/`
+
+O bien directamente ejecutar en la terminal:
+
+```
+ng s -o # serve y open abre directamente el browser
+```
  
 ## Generación inicial del proyecto
 
@@ -61,7 +67,7 @@ Dado que el binding bidireccional tiene un costo (a medida que incorporamos más
 <input name="millas" class="form-control" [(ngModel)]="conversor.millas">  <!-- bidireccional-->
 ```
 
-y
+vs.
 
 ```html
 <p class="lead">{{conversor.kilometros}}</p>   <!-- unidireccional -->
