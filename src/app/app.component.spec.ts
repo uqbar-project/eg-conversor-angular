@@ -1,12 +1,15 @@
-import {FormsModule} from '@angular/forms' // necesario agregarlo aqui
 import {TestBed, async} from '@angular/core/testing'
 import {AppComponent} from './app.component'
 import {HttpClient, HttpClientModule} from '@angular/common/http'
+
+/** Imports extras tomados de @NgModule */
+import {FormsModule} from '@angular/forms' // necesario agregarlo aqui
 /** Registramos el locale ES para formatear números */
-import {CommonModule} from '@angular/common';
-import {registerLocaleData} from '@angular/common';
-import localeEs from '@angular/common/locales/es';
-import Conversor from '../domain/conversor';
+import {CommonModule} from '@angular/common'
+import {registerLocaleData} from '@angular/common'
+import localeEs from '@angular/common/locales/es'
+/** Import a objeto de dominio Conversor */
+import Conversor from '../domain/conversor'
 
 registerLocaleData(localeEs)
 
