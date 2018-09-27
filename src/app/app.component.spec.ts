@@ -13,7 +13,7 @@ import Conversor from '../domain/conversor'
 
 registerLocaleData(localeEs)
 
-describe('AppComponent', () => {
+describe('Tests de AppComponent', () => {
   let fixture
   let componente
   beforeEach(async(() => {

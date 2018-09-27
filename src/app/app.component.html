@@ -13,6 +13,7 @@
                         <label for="millas">Millas</label>
                         <input name="millas" id="millas" class="form-control" required 
                             [(ngModel)]="conversor.millas" 
+                            (mouseover)="conversor.convertir()"
                             #millas="ngModel"
                             pattern="^[0-9]+$" 
                             placeholder="Ingrese la cantidad de millas a convertir"

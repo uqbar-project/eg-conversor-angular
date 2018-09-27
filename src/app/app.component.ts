@@ -1,5 +1,5 @@
-import Conversor from "../domain/conversor"
 import { Component } from '@angular/core'
+import Conversor from '../domain/conversor'
 
 @Component({
   selector: 'app-root',
