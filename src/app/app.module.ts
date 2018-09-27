@@ -11,15 +11,17 @@ import localeEs from '@angular/common/locales/es'
 registerLocaleData(localeEs)
 /** Fin registración ES */
 
+export const importsConversor = [
+  CommonModule,
+  BrowserModule,
+  FormsModule
+]
+
 @NgModule({
   declarations: [
     AppComponent
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    FormsModule
-  ],
+  imports: importsConversor,
   providers: [],
   bootstrap: [AppComponent]
 })

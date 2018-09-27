@@ -3,13 +3,11 @@ import {AppComponent} from './app.component'
 import {HttpClient, HttpClientModule} from '@angular/common/http'
 
 /** Imports extras tomados de @NgModule */
-import {FormsModule} from '@angular/forms' // necesario agregarlo aqui
 /** Registramos el locale ES para formatear números */
-import {CommonModule} from '@angular/common'
 import {registerLocaleData} from '@angular/common'
 import localeEs from '@angular/common/locales/es'
 /** Import a objeto de dominio Conversor */
-import Conversor from '../domain/conversor'
+import { importsConversor } from './app.module';
 
 registerLocaleData(localeEs)
 
@@ -19,11 +17,7 @@ describe('Tests de AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [
-        // agregar dependencias necesarias
-        FormsModule,
-        CommonModule
-      ]
+      imports: importsConversor
     }).compileComponents()
     fixture = TestBed.createComponent(AppComponent)
     componente = fixture.debugElement.componentInstance
