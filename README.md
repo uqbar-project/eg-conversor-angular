@@ -2,14 +2,13 @@
 
 [![Build Status](https://www.travis-ci.org/uqbar-project/eg-conversor-angular.svg?branch=master)](https://www.travis-ci.org/uqbar-project/eg-conversor-angular)
 
-
-Este proyecto representa el clásico ejemplo del conversor de millas a kilómetros, generado con [Angular CLI](https://github.com/angular/angular-cli) versión 6.0.0, y modificado luego manualmente.
+Este proyecto representa el clásico ejemplo del conversor de millas a kilómetros, generado con [Angular CLI](https://github.com/angular/angular-cli) versión 8.1.1, y modificado luego manualmente.
 
 ## Cómo probarlo
 
 Desde el raíz del proyecto, en una consola, ejecutar:
 
-```
+```bash
 ng serve
 ```
 
@@ -17,14 +16,13 @@ Y en el navegador cargar la página `http://localhost:4200/`
 
 O bien directamente ejecutar en la terminal:
 
-```
+```bash
 ng s -o # serve y open abre directamente el browser
 ```
- 
+
 ## Generación inicial del proyecto
 
 Seguimos los pasos que están en [la página de inicio de Angular](https://angular.io/guide/quickstart)
-
 
 ## Estructura de una aplicación en Angular
 
@@ -33,7 +31,7 @@ Toda aplicación tiene
 - módulos, que agrupan funcionalidades
 - componentes, que encapsulan una asociación vista (HTML)-modelo (en este caso en TypeScript) y que por defecto vienen acompañados de tests (*.spec, en TypeScript). Opcionalmente también tenemos un archivo de estilos asociado (css)
 
-```
+```bash
 (nodo raíz)
  + src
    + app
@@ -89,14 +87,12 @@ La implementación del objeto de dominio Conversor no es nada sorprendente:
 
 ```typescript
 export default class Conversor {
-    
     millas: number = 0
     kilometros: number = 0
 
     convertir() {
         this.kilometros = this.millas * 1.60934
     }
-
 }
 ```
 
@@ -313,7 +309,7 @@ El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los t
     conversor.convertir()
     fixture.detectChanges()
     const compiled = fixture.debugElement.nativeElement
-    expect(compiled.querySelector('p').textContent).toContain('160,934')
+    expect(compiled.querySelector('#kilometros').textContent).toContain('160,934')
   }))
 ```
 
