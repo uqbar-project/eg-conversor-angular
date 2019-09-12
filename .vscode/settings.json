@@ -1,0 +1,4 @@
+{
+  "typescriptHero.imports.insertSemicolons": false,
+  "tsimporter.emitSemicolon": false
+}

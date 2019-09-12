@@ -306,15 +306,37 @@ Por último, ¿qué sucede si ingresamos el valor 100? Nuestro valor esperado es
 El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los tests:
 
 ```typescript
-  it('al convertir millas a kilómetros desde el modelo debe dejar en un p la conversión en kilómetros y 3 decimales con coma', async(() => {
-    const conversor = componente.conversor
-    conversor.millas = 100
-    conversor.convertir()
+  it('conversión de millas a kilómetros exitosa con 3 decimales', async(() => {
+    componente.conversor.millas = 100
+
+    const convertirButton = fixture
+      .nativeElement
+      .querySelector('#convertir')
+    convertirButton.click()
     fixture.detectChanges()
-    const compiled = fixture.debugElement.nativeElement
-    expect(compiled.querySelector('#kilometros').textContent).toContain('160,934')
+
+    fixture
+      .whenStable()
+      .then(() => {
+        const compiled = fixture.nativeElement
+        expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
+      })
   }))
 ```
+
+Siguiendo la recomendación de [esta página](https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change), evitamos trabajar con
+
+- un tag html específico (`<p>`)
+- o un id dentro de la página
+- class
+- o cualquier otro tag html que pueda ser utilizado para la vista
+- y en cambio definimos un atributo específico `data-testid` de HTML5:
+
+```html
+<p class="lead" id="kilometros" *ngIf="!millas.errors" data-testid="kilometros">
+```
+
+El prefijo `data-` hace que los navegadores lo ignoren en el render, pero los tests sí lo van a necesitar, y de esa manera no interfieren los atributos propios para mostrar la página vs. los atributos para testearla. Bueno, hay cierta intrusión porque si no tuviéramos tests tendríamos menos tags que leer, pero es un costo lo suficientemente justo.
 
 El mensaje fixture.detectChanges() es necesario para disparar los eventos de actualización de modelo a vista propios de Angular.
 Para más información recomendamos leer [la documentación oficial de Angular](https://angular.io/guide/testing)
