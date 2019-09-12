@@ -57,7 +57,7 @@ describe('Tests de AppComponent', () => {
 
     const convertirButton = fixture
       .nativeElement
-      .querySelector('#convertir')
+      .querySelector('[data-testid="convertir"')
     convertirButton.click()
     fixture.detectChanges()
 

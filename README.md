@@ -292,9 +292,12 @@ En cuanto al test que verifica el tag h1, las variables title y conversor de nue
 
 - un tag específico (en este caso, 'h1')
 - por un identificador (anteponiendo un numeral)
-- o bien por cualquier elemento que tenga una clase determinada (utilizando como prefijo un punto: '.')
+- por cualquier elemento que tenga una clase determinada (utilizando como prefijo un punto: '.')
+- o bien por cualquier otro atributo, como veremos a continuación
 
 Entonces compiled.querySelector('h1') nos devuelve el elemento h1, y al pedirle su textContent (la propiedad innerHTML) debe coincidir con "Convesor Angular".
+
+> De todas maneras, estos tests no tienen mucho valor, solamente los presentamos por una cuestión didáctica, para introducir diferentes conceptos. A partir de aquí, nos concentraremos en testear la aplicación desde la perspectiva de la interacción del usuario.
 
 ## Tests de interacción con el usuario
 
@@ -311,7 +314,7 @@ El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los t
 
     const convertirButton = fixture
       .nativeElement
-      .querySelector('#convertir')
+      .querySelector('[data-testid="convertir"')
     convertirButton.click()
     fixture.detectChanges()
 
@@ -324,7 +327,13 @@ El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los t
   }))
 ```
 
-Siguiendo la recomendación de [esta página](https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change), evitamos trabajar con
+Fíjense esta línea:
+
+```ts
+expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
+```
+
+Para encontrar el valor de los kilómetros, seguimos la recomendación de [esta página](https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change), evitamos trabajar con
 
 - un tag html específico (`<p>`)
 - o un id dentro de la página
@@ -338,5 +347,8 @@ Siguiendo la recomendación de [esta página](https://kentcdodds.com/blog/making
 
 El prefijo `data-` hace que los navegadores lo ignoren en el render, pero los tests sí lo van a necesitar, y de esa manera no interfieren los atributos propios para mostrar la página vs. los atributos para testearla. Bueno, hay cierta intrusión porque si no tuviéramos tests tendríamos menos tags que leer, pero es un costo lo suficientemente justo.
 
-El mensaje fixture.detectChanges() es necesario para disparar los eventos de actualización de modelo a vista propios de Angular.
+Lo mismo hemos hecho para disparar el botón que convierte de millas a kilómetros.
+
+El mensaje `fixture.detectChanges()` es necesario para disparar los eventos de actualización de modelo a vista propios de Angular.
+
 Para más información recomendamos leer [la documentación oficial de Angular](https://angular.io/guide/testing)
