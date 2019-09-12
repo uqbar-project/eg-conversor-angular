@@ -44,7 +44,7 @@ Toda aplicación tiene
      - conversor.ts            -- objeto de dominio
 ```
 
-Como es nuestra primer ejemplo, vamos a modificar el comportamiento de AppModule y AppComponent, que es el elemento inicial de nuestra aplicación en Angular. A futuro vamos a crear nuevos componentes y módulos.
+Como es nuestro primer ejemplo, vamos a modificar el comportamiento de AppModule y AppComponent, que es el elemento inicial de nuestra aplicación en Angular. A futuro vamos a crear nuevos componentes y módulos.
 
 # Conceptos principales
 
@@ -166,7 +166,7 @@ Y ahora sí podemos utilizarlo en la vista, dentro del binding unidireccional pa
 <p class="lead" *ngIf="!millas.errors">{{conversor.kilometros | number:'1.3-3':'es' }}</p>
 ```
 
-Este concepto que anteriormente se conocía como filter permite dar formato al valor que se encuentra a la izquierda del pipe, en nuestro caso
+Este concepto permite dar formato al valor que se encuentra a la izquierda del pipe, en nuestro caso
 
 - el valor es conversor.kilometros
 - le aplicamos formato de número
@@ -177,13 +177,11 @@ De esa manera el 0 se muestra como "0,000", y la conversión de 100 queda como s
 
 ![imagen](images/conversor_pipes.png) 
 
-
 Para más información sobre los pipes que trae Angular pueden ver [esta página](https://angular.io/api?type=pipe)
-
 
 ## Testing
 
-Angular trae un conjunto de tests al crear un proyecto, en este caso en el archivo app.component.spec.ts
+Angular trae un conjunto de tests al crear un proyecto, en este caso en el archivo `app.component.spec.ts`
 
 Podemos ejecutar la prueba automatizada desde una terminal (de línea de comandos o bien la integrada de nuestro IDE):
 
@@ -192,11 +190,16 @@ Podemos ejecutar la prueba automatizada desde una terminal (de línea de comando
 ```
 
 - la configuración `watch` es para que levante un browser de Chrome, se ejecuten los tests y luego quede esperando a modificaciones
-- el flag sourceMap permite mostrar mensajes de error expresivos cuando los tests tengan problemas de dependencia, por ejemplo. Tenelo en cuenta si a veces te aparece un error críptico como
+- el flag `sourceMap=false` permite mostrar mensajes de error expresivos cuando los tests tengan problemas de dependencia. Tenelo en cuenta si a veces te aparece un error críptico como
 
 ```bash
 Failed to execute 'send' on 'XMLHttpRequest': Failed to load 'ng:///DynamicTestModule/AppComponent.ngfactory.js'
 ```
+
+Los [source maps](https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/) son archivos que en este caso relacionan
+
+- un archivo con definiciones hechas en Typescript
+- con el correspondiente [javascript transpilado](https://scotch.io/tutorials/javascript-transpilers-what-they-are-why-we-need-them), que es el que termina ejecutando en el user agent. Ejemplos similares de transpilación: Xtend -> Java, que tiene un archivo .xtend, otro .java y el .xtendbin que funciona como source map.
 
 ### Dependencias
 
@@ -276,7 +279,7 @@ Los siguientes tests validan
   }))
 ```
 
-Es fácil verificar que el título del componente sea "Conversor" porque lo inicializamos en la definición (archivo app.component.ts) 
+Es fácil verificar que el título del componente sea "Conversor" porque lo inicializamos en la definición (archivo app.component.ts)
 
 ```typescript
 export class AppComponent {
