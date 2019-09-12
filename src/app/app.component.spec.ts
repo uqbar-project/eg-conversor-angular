@@ -44,20 +44,11 @@ describe('Tests de AppComponent', () => {
       expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
     }))
   it('conversión de millas a kilómetros exitosa con 3 decimales', async(() => {
-    // Simulo la carga de 100 millas en el input type text (no puedo pasarle un
-    // entero, tiene que ser un texto) querySelector permite encontrar un elemento
-    // del DOM por css, por id con #, por clase con . y por tipo de elemento sin
-    // prefijo como vimos arriba :
-    // https://www.w3schools.com/jsref/met_document_queryselector.asp const
-    // millasInput = fixture.nativeElement.querySelector('[data-testid="millas"])')
-    // millasInput.value = '100' fixture.nativeElement.dispatchEvent(new
-    // Event('input')) Sin esto no se produce
     componente.conversor.millas = 100
-    //
 
     const convertirButton = fixture
       .nativeElement
-      .querySelector('[data-testid="convertir"')
+      .querySelector('[data-testid="convertir"]')
     convertirButton.click()
     fixture.detectChanges()
 
@@ -68,4 +59,23 @@ describe('Tests de AppComponent', () => {
         expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
       })
   }))
+  it('conversión de millas a kilómetros fallida - ingresa caracter alfabético', async(() => {
+    const millasInput = fixture.nativeElement.querySelector('[data-testid="millas"]')
+    millasInput.value = 'A'
+    fixture.nativeElement.dispatchEvent(new Event('input'))
+
+    const convertirButton = fixture
+      .nativeElement
+      .querySelector('[data-testid="convertir"]')
+    convertirButton.click()
+    fixture.detectChanges()
+
+    fixture
+      .whenStable()
+      .then(() => {
+        const compiled = fixture.nativeElement
+        expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('0,000')
+      })
+  }))
+
 })
