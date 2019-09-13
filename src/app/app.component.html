@@ -13,7 +13,7 @@
                     <div class="form-group">
                         <label for="millas">Millas</label>
                         <input name="millas" id="millas" class="form-control" data-testid="millas" required
-                            [(ngModel)]="conversor.millas" (keyup)="conversor.convertir()" #millas="ngModel"
+                            [(ngModel)]="conversor.millas" (mouseover)="conversor.convertir()" #millas="ngModel"
                             pattern="^[0-9]+$" placeholder="Ingrese la cantidad de millas a convertir"
                             autofocus="autofocus">
                     </div>

@@ -33,7 +33,7 @@ describe('Tests de AppComponent', () => {
     const compiled = appComponent.debugElement.nativeElement
     expect(compiled.querySelector('h1').textContent).toContain('Conversor Angular')
   }))
-  it('conversión de millas a kilómetros exitosa con 3',
+  it('conversión de millas a kilómetros exitosa con 3 decimales',
     async(() => {
       const conversor = componente.conversor
       conversor.millas = 100
@@ -42,43 +42,22 @@ describe('Tests de AppComponent', () => {
       const compiled = appComponent.debugElement.nativeElement
       expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
     }))
-  // it('conversión de millas a kilómetros exitosa con 3 decimales', async(() => {
-  //   componente.conversor.millas = 100
-
-  //   const convertirButton = fixture
-  //     .nativeElement
-  //     .querySelector('[data-testid="convertir"]')
-  //   convertirButton.click()
-  //   fixture.detectChanges()
-
-  //   fixture
-  //     .whenStable()
-  //     .then(() => {
-  //       const compiled = fixture.nativeElement
-  //       expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
-  //     })
-  // }))
   // it('conversión de millas a kilómetros fallida - ingresa caracter alfabético', async(() => {
-  //   // const millasInput: HTMLInputElement = fixture.nativeElement.querySelector('[data-testid="millas"]')
-  //   // millasInput.value = 'AAAA'
-  //   const conversor = componente.conversor
-  //   conversor.millas = 'A'
+  //   const millasInput: HTMLInputElement = appComponent.nativeElement.querySelector('[data-testid="millas"]')
+  //   millasInput.value = 'AAAA'
   //   dispatchEvent(new Event('input'))
-  //   fixture.detectChanges()
 
-  //   const convertirButton = fixture
+  //   const convertirButton = appComponent
   //     .nativeElement
   //     .querySelector('[data-testid="convertir"]')
   //   convertirButton.click()
-  //   dispatchEvent(new Event('input'))
-  //   fixture.detectChanges()
+  //   appComponent.detectChanges()
 
-  //   fixture
+  //   appComponent
   //     .whenStable()
   //     .then(() => {
-  //       const compiled = fixture.nativeElement
-  //       expect(compiled.querySelector('[data-testid="errors"]').textContent).toBeTruthy()
-  //       expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('0,000')
+  //       console.log(componente.conversor.kilometros)
+  //       expect(millasInput.value).toBe('AAAA')
   //     })
   // }))
 
