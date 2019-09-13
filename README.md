@@ -87,8 +87,8 @@ La implementación del objeto de dominio Conversor no es nada sorprendente:
 
 ```typescript
 export default class Conversor {
-    millas: number = 0
-    kilometros: number = 0
+    millas = 0
+    kilometros = 0
 
     convertir() {
         this.kilometros = this.millas * 1.60934

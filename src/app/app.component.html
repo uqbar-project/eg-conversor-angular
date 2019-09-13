@@ -13,17 +13,18 @@
                     <div class="form-group">
                         <label for="millas">Millas</label>
                         <input name="millas" id="millas" class="form-control" data-testid="millas" required
-                            [(ngModel)]="conversor.millas" (mouseover)="conversor.convertir()" #millas="ngModel"
+                            [(ngModel)]="conversor.millas" (keyup)="conversor.convertir()" #millas="ngModel"
                             pattern="^[0-9]+$" placeholder="Ingrese la cantidad de millas a convertir"
                             autofocus="autofocus">
                     </div>
 
                     <div *ngIf="millas.invalid && (millas.dirty || millas.touched)">
                         <br>
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger" data-testid="errors">
                             Error:
                             <span *ngIf="millas.errors.required">¡Debe ingresar millas!</span>
-                            <span *ngIf="millas.errors?.pattern">Formato debe ser numérico</span>
+                            <span data-testid="numeric-format" *ngIf="millas.errors?.pattern">Formato debe ser
+                                numérico</span>
                         </div>
                     </div>
 
