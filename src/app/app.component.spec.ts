@@ -1,15 +1,8 @@
 import { TestBed, async } from '@angular/core/testing'
 import { AppComponent } from './app.component'
-import { HttpClient, HttpClientModule } from '@angular/common/http'
 
 /** Imports extras tomados de @NgModule */
-/** Registramos el locale ES para formatear números */
-import { registerLocaleData } from '@angular/common'
-import localeEs from '@angular/common/locales/es'
-/** Import a objeto de dominio Conversor */
 import { importsConversor } from './app.module';
-
-registerLocaleData(localeEs)
 
 describe('Tests de AppComponent', () => {
   let appComponent
