@@ -26,15 +26,20 @@ describe('Tests de AppComponent', () => {
     const compiled = appComponent.debugElement.nativeElement
     expect(compiled.querySelector('h1').textContent).toContain('Conversor Angular')
   }))
-  it('conversión de millas a kilómetros exitosa con 3 decimales',
-    async(() => {
-      const conversor = componente.conversor
-      conversor.millas = 100
-      conversor.convertir()
-      appComponent.detectChanges()
-      const compiled = appComponent.debugElement.nativeElement
-      expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
-    }))
+  it("conversión de millas a kilómetros exitosa con 3 decimales", async(() => {
+    componente.conversor.millas = 100;
+
+    const convertirButton = appComponent.nativeElement.querySelector('[data-testid="convertir"');
+    convertirButton.click();
+    appComponent.detectChanges();
+
+    appComponent.whenStable().then(() => {
+      const compiled = appComponent.nativeElement;
+      expect(
+        compiled.querySelector('[data-testid="kilometros"]').textContent
+      ).toContain("160,934");
+    });
+  }));
   // it('conversión de millas a kilómetros fallida - ingresa caracter alfabético', async(() => {
   //   const millasInput: HTMLInputElement = appComponent.nativeElement.querySelector('[data-testid="millas"]')
   //   millasInput.value = 'AAAA'
