@@ -2,7 +2,7 @@
 
 [![Build Status](https://www.travis-ci.org/uqbar-project/eg-conversor-angular.svg?branch=master)](https://www.travis-ci.org/uqbar-project/eg-conversor-angular)
 
-Este proyecto representa el clásico ejemplo del conversor de millas a kilómetros, generado con [Angular CLI](https://github.com/angular/angular-cli) versión 8.1.1, y modificado luego manualmente.
+Este proyecto representa el clásico ejemplo del conversor de millas a kilómetros, generado con [Angular CLI](https://github.com/angular/angular-cli) versión 10.0.4, y modificado luego manualmente.
 
 ## Cómo probarlo
 
@@ -78,7 +78,6 @@ El binding de millas es "conversor.millas" lo que implica que en el modelo debe 
 ```typescript
 export class AppComponent {
   title = 'Conversor'
-
   conversor = new Conversor()
 }
 ```
@@ -86,7 +85,8 @@ export class AppComponent {
 La implementación del objeto de dominio Conversor no es nada sorprendente:
 
 ```typescript
-export default class Conversor {
+export class Conversor {
+ 
     millas = 0
     kilometros = 0
 
@@ -149,15 +149,18 @@ Entonces el ngIf mostrará el contenedor div de html si la condición encerrada 
 
 ## Pipes
 
-Un concepto similar a los _transformers_ de Arena son los [_pipes_](https://angular.io/guide/pipes) que permiten definir un formato con n decimales con coma, en lugar del punto que por defecto muestra Angular. Para ello vamos a incorporar la configuración regional española (también llamado _locale_ es) en el app.module.ts:
+Un concepto similar a los _transformers_ de Arena son los [_pipes_](https://angular.io/guide/pipes) que permiten definir un formato con n decimales con coma, en lugar del punto que por defecto muestra Angular. 
+
+Primero vamos a agregar el paquete [angular localize](https://angular.io/guide/i18n#add-the-localize-package): 
+
+```bash
+ng add @angular/localize
+```
+
+Luego hay que importar la configuración regional española (también llamado _locale_ es) en el app.module.ts:
 
 ```typescript
-/** Registramos el locale ES para formatear números */
-import { registerLocaleData } from '@angular/common'
-import localeEs from '@angular/common/locales/es'
-
-registerLocaleData(localeEs)
-/** Fin registración ES */
+import '@angular/common/locales/global/es'
 ``` 
 
 Y ahora sí podemos utilizarlo en la vista, dentro del binding unidireccional para kilómetros:
@@ -205,50 +208,27 @@ Los [source maps](https://www.html5rocks.com/en/tutorials/developertools/sourcem
 
 Un tema importante a la hora de correr los tests es que lo hacen en forma independiente de la aplicación Angular, por lo tanto debemos inyectar las dependencias que están en el @NgModule (recordemos que en este ejemplo es el archivo _app.module.ts_).
 
-```typescript
-/** Imports extras tomados de @NgModule */
-import {FormsModule} from '@angular/forms' // necesario agregarlo aqui
-/** Registramos el locale ES para formatear números */
-import {CommonModule} from '@angular/common'
-import {registerLocaleData} from '@angular/common'
-import localeEs from '@angular/common/locales/es'
-/** Import a objeto de dominio Conversor */
-import Conversor from '../domain/conversor'
-```
+Para esto importamos la constante importsConversor que contiene los módulos BrowserModule y FormsModule.
 
+```typescript
+import { importsConversor } from './app.module';
+```
 - FormsModule lo necesitamos para poder levantar un mock de la pantalla
-- CommonModule, registerLocaleDate y localeEs tienen que ver con la conversión del formato de punto a coma decimal para mostrar los kilómetros: "160,934" en lugar de "160.934"
-- y por último, necesitamos acceder a nuestro objeto de dominio Conversor
 
 Además tenemos otros imports que se crean por defecto cuando generamos nuestra aplicación con el comando ng: nuestro componente AppComponent y un _mockeador_ de nuestro componente llamado TestBed que más adelante explicaremos, entre otros.
-
-Al igual que en @NgModule, debemos registrar el locale ES antes de comenzar los tests:
-
-```typescript
-registerLocaleData(localeEs)
-
-describe('AppComponent', () => {
-```
 
 ### Primeras pruebas
 
 Veamos el primer test
 
 ```typescript
-describe('AppComponent', () => {
-  let fixture
+describe('Tests de AppComponent', () => {
+  let appComponent
   let componente
   beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [
-        // agregar dependencias necesarias
-        FormsModule,
-        CommonModule
-      ]
-    }).compileComponents()
-    fixture = TestBed.createComponent(AppComponent)
-    componente = fixture.debugElement.componentInstance
+    TestBed.configureTestingModule({ declarations: [AppComponent], imports: importsConversor }).compileComponents()
+    appComponent = TestBed.createComponent(AppComponent)
+    componente = appComponent.debugElement.componentInstance
   }))
   it('debe crear correctamente la aplicación', async(() => {
     expect(componente).toBeTruthy()
@@ -257,10 +237,10 @@ describe('AppComponent', () => {
 
 En el método beforeEach inicializamos dos variables muy importantes para poder hacer pruebas
 
-- fixture: un NgModule _mockeado_ por el componente de testing de Angular llamado TestBed
+- appComponent: un NgModule _mockeado_ por el componente de testing de Angular llamado TestBed
 - componente: una referencia a nuestro componente de Angular, también mockeado (fixture.debugElement nos devuelve una representación del modelo DOM de nuestro HTML, apta para hacer pruebas)
 
-El primer test valida que el componente sea un valor posible ([truthy](https://j11y.io/javascript/truthy-falsey/) es un valor diferente de nulo, _undefined_, 0, NaN, "", etc.)
+El primer test valida que el componente sea un valor posible ([truthy](https://developer.mozilla.org/es/docs/Glossary/Truthy) es un valor diferente de nulo, _undefined_, 0, NaN, "", etc.)
 
 ## Tests que aplican sobre elementos del DOM inicial
 
@@ -312,18 +292,14 @@ El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los t
   it('conversión de millas a kilómetros exitosa con 3 decimales', async(() => {
     componente.conversor.millas = 100
 
-    const convertirButton = fixture
-      .nativeElement
-      .querySelector('[data-testid="convertir"')
+    const convertirButton = appComponent.nativeElement.querySelector('[data-testid="convertir"')
     convertirButton.click()
-    fixture.detectChanges()
+    appComponent.detectChanges()
 
-    fixture
-      .whenStable()
-      .then(() => {
-        const compiled = fixture.nativeElement
-        expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
-      })
+    appComponent.whenStable().then(() => {
+      const compiled = appComponent.nativeElement
+      expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
+    })
   }))
 ```
 
