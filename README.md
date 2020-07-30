@@ -249,7 +249,11 @@ El siguiente test es ciertamente discutible: testear que el título sea "Convers
 - por el tag `<h1>`
 - por un atributo que tiene el tag, en este caso `data-testid`
 
-La primera opción tiene una desventaja: estamos utilizando como elemento de búsqueda para el test un tag que tiene sentido estético. El usuario puede pedirnos que el título sea más chico, o que utilicemos el tag `<title>` que semánticamente es más correcto, y se rompió el test. Por el contrario, al utilizar un atributo `data-testid`, el prefijo data hace que el navegador ignore ese valor en el momento de mostrar la página, no tiene efecto estético y entonces no está sujeto a cambios. En el html escribimos:
+La primera opción tiene una desventaja: estamos utilizando como elemento de búsqueda para el test un tag que tiene sentido estético. El usuario puede pedirnos que utilicemos el tag `<title>` que semánticamente es más correcto, eso rompería el test de inmediato.
+
+La segunda opción es la que recomendamos nosotros, basado en [esta página](https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change). El prefijo `data-` hace que los navegadores lo ignoren en el render, pero los tests lo pueden utilizar. De esa manera no interfieren los atributos propios para mostrar la página vs. los atributos para testearla. Bueno, hay cierta intrusión porque si no tuviéramos tests tendríamos menos tags que leer, pero es un costo lo suficientemente justo.
+
+Nuestro html queda:
 
 ```html
 <h1 data-testid="titulo">Conversor <small>Angular</small></h1>
@@ -263,12 +267,12 @@ Y en los tests tendremos una función de alto nivel para buscar un elemento por 
   }))
 ```
 
-En cuanto la función que busca el elemento, tenemos que indagar en el DOM de la página html devuelta, dentro de la variable compiled. Efectivamente nuestro "nativeElement" es una simplificación del DOM que parsea el browser, y dentro de esa jerarquía de elementos visuales que tiene el DOM podemos hacer la consulta [querySelector](https://www.w3schools.com/jsref/met_document_queryselector.asp), por
+Aquí tenemos que indagar en el DOM de la página html devuelta. Efectivamente nuestro "nativeElement" es una simplificación del DOM que parsea el browser, y dentro de esa jerarquía de elementos visuales que tiene el DOM podemos hacer la consulta [querySelector](https://www.w3schools.com/jsref/met_document_queryselector.asp), por
 
 - un tag específico (en este caso, 'h1')
 - por un identificador (anteponiendo un numeral)
 - por cualquier elemento que tenga una clase determinada (utilizando como prefijo un punto: '.')
-- o bien por cualquier otro atributo, como veremos a continuación
+- o bien por cualquier otro atributo, como será nuestro caso
 
 ```ts
 const buscarElemento = (testId: string) => {
@@ -302,28 +306,6 @@ it('conversión de millas a kilómetros exitosa con 3 decimales', async(() => {
   })
 }))
 ```
-
-Fíjense esta línea:
-
-```ts
-expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
-```
-
-Para encontrar el valor de los kilómetros, seguimos la recomendación de [esta página](https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change), evitamos trabajar con
-
-- un tag html específico (`<p>`)
-- o un id dentro de la página
-- class
-- o cualquier otro tag html que pueda ser utilizado para la vista
-- y en cambio definimos un atributo específico `data-testid` de HTML5:
-
-```html
-<p class="lead" id="kilometros" *ngIf="!millas.errors" data-testid="kilometros">
-```
-
-El prefijo `data-` hace que los navegadores lo ignoren en el render, pero los tests sí lo van a necesitar, y de esa manera no interfieren los atributos propios para mostrar la página vs. los atributos para testearla. Bueno, hay cierta intrusión porque si no tuviéramos tests tendríamos menos tags que leer, pero es un costo lo suficientemente justo.
-
-Lo mismo hemos hecho para disparar el botón que convierte de millas a kilómetros.
 
 El mensaje `fixture.detectChanges()` es necesario para disparar los eventos de actualización de modelo a vista propios de Angular.
 
