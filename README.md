@@ -240,44 +240,44 @@ En el método beforeEach inicializamos dos variables muy importantes para poder 
 - appComponent: un NgModule _mockeado_ por el componente de testing de Angular llamado TestBed
 - componente: una referencia a nuestro componente de Angular, también mockeado (fixture.debugElement nos devuelve una representación del modelo DOM de nuestro HTML, apta para hacer pruebas)
 
-El primer test valida que el componente sea un valor posible ([truthy](https://developer.mozilla.org/es/docs/Glossary/Truthy) es un valor diferente de nulo, _undefined_, 0, NaN, "", etc.)
+El primer test valida que el componente sea un valor posible ([truthy](https://developer.mozilla.org/es/docs/Glossary/Truthy), este test tiene sentido como **prueba de humo** de que cualquier cambio que introduzcamos no rompa el componente. Es un test básico de que la aplicación levanta.
 
 ## Tests que aplican sobre elementos del DOM inicial
 
-Los siguientes tests validan
+El siguiente test es ciertamente discutible: testear que el título sea "Conversor Angular" no nos dice demasiado sobre qué estamos probando para el negocio. Pero tiene sentido didáctico: ahora bien, ¿cómo buscamos el título? 
 
-- que la página inicialmente tenga el título "Conversor"
-- y que haya dentro de la página devuelta un tag H1 cuyo contenido sea "Conversor Angular"
+- por el tag `<h1>`
+- por un atributo que tiene el tag, en este caso `data-testid`
+
+La primera opción tiene una desventaja: estamos utilizando como elemento de búsqueda para el test un tag que tiene sentido estético. El usuario puede pedirnos que el título sea más chico, o que utilicemos el tag `<title>` que semánticamente es más correcto, y se rompió el test. Por el contrario, al utilizar un atributo `data-testid`, el prefijo data hace que el navegador ignore ese valor en el momento de mostrar la página, no tiene efecto estético y entonces no está sujeto a cambios. En el html escribimos:
+
+```html
+<h1 data-testid="titulo">Conversor <small>Angular</small></h1>
+```
+
+Y en los tests tendremos una función de alto nivel para buscar un elemento por `data-testid`:
 
 ```typescript
-  it(`debe tener como título 'Conversor'`, async(() => {
-    expect(componente.title).toEqual('Conversor')
-  }))
-  it('debe aparecer el título Conversor Angular en un tag h1', async(() => {
-    const compiled = fixture.debugElement.nativeElement
-    expect(compiled.querySelector('h1').textContent).toContain('Conversor Angular')
+  it('el título debe ser Conversor Angular', async(() => {
+    expect(buscarElemento('titulo').textContent).toContain('Conversor Angular')
   }))
 ```
 
-Es fácil verificar que el título del componente sea "Conversor" porque lo inicializamos en la definición (archivo app.component.ts)
-
-```typescript
-export class AppComponent {
-  title = 'Conversor'
-  conversor = new Conversor()
-}
-```
-
-En cuanto al test que verifica el tag h1, las variables title y conversor de nuestro AppComponent no son suficientes, tenemos que indagar en el DOM de la página html devuelta, dentro de la variable compiled. Efectivamente nuestro "nativeElement" es una simplificación del DOM que parsea el browser, y dentro de esa jerarquía de elementos visuales que tiene el DOM podemos hacer la consulta [querySelector](https://www.w3schools.com/jsref/met_document_queryselector.asp), por
+En cuanto la función que busca el elemento, tenemos que indagar en el DOM de la página html devuelta, dentro de la variable compiled. Efectivamente nuestro "nativeElement" es una simplificación del DOM que parsea el browser, y dentro de esa jerarquía de elementos visuales que tiene el DOM podemos hacer la consulta [querySelector](https://www.w3schools.com/jsref/met_document_queryselector.asp), por
 
 - un tag específico (en este caso, 'h1')
 - por un identificador (anteponiendo un numeral)
 - por cualquier elemento que tenga una clase determinada (utilizando como prefijo un punto: '.')
 - o bien por cualquier otro atributo, como veremos a continuación
 
-Entonces compiled.querySelector('h1') nos devuelve el elemento h1, y al pedirle su textContent (la propiedad innerHTML) debe coincidir con "Convesor Angular".
+```ts
+const buscarElemento = (testId: string) => {
+  const compiled = appComponent.debugElement.nativeElement
+  return compiled.querySelector(`[data-testid="${testId}"]`)
+}
+```
 
-> De todas maneras, estos tests no tienen mucho valor, solamente los presentamos por una cuestión didáctica, para introducir diferentes conceptos. A partir de aquí, nos concentraremos en testear la aplicación desde la perspectiva de la interacción del usuario.
+Un detalle importante es que la función está definida dentro del contexto de los tests, por eso la referencia appComponent existe. Si la definiéramos afuera tendríamos que recibir `appComponent` como parámetro de la función.
 
 ## Tests de interacción con el usuario
 
@@ -289,18 +289,18 @@ Por último, ¿qué sucede si ingresamos el valor 100? Nuestro valor esperado es
 El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los tests:
 
 ```typescript
-  it('conversión de millas a kilómetros exitosa con 3 decimales', async(() => {
-    componente.conversor.millas = 100
+it('conversión de millas a kilómetros exitosa con 3 decimales', async(() => {
+  componente.conversor.millas = 100
 
-    const convertirButton = appComponent.nativeElement.querySelector('[data-testid="convertir"')
-    convertirButton.click()
-    appComponent.detectChanges()
+  const convertirButton = buscarElemento('convertir')
+  convertirButton.click()
+  appComponent.detectChanges()
 
-    appComponent.whenStable().then(() => {
-      const compiled = appComponent.nativeElement
-      expect(compiled.querySelector('[data-testid="kilometros"]').textContent).toContain('160,934')
-    })
-  }))
+  appComponent.whenStable().then(() => {
+    const resultado = buscarElemento('kilometros')
+    expect(resultado.textContent).toContain('160,934')
+  })
+}))
 ```
 
 Fíjense esta línea:
