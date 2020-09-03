@@ -35,7 +35,7 @@ Toda aplicación tiene
 (nodo raíz)
  + src
    + app
-     - app.component.css       -- estilo
+     - app.component.css       -- estilos para el componente app
      - app.component.html      -- vista
      - app.component.spec.ts   -- test
      - app.component.ts        -- componente que relaciona vista y su modelo (un objeto de dominio)
@@ -46,15 +46,17 @@ Toda aplicación tiene
 
 Como es nuestro primer ejemplo, vamos a modificar el comportamiento de AppModule y AppComponent, que es el elemento inicial de nuestra aplicación en Angular. A futuro vamos a crear nuevos componentes y módulos.
 
+## CSS Custom
+
+En la versión 2020, comenzamos a utilizar una definición de estilos custom, en lugar de trabajar con el framework Bootstrap Twitter (que podés ver en [este branch](https://github.com/uqbar-project/eg-conversor-angular/tree/bootstrap)).
+
 # Conceptos principales
 
 ## Binding entre vista y modelo
 
 ![image](images/Arquitectura_Overview.png)
 
-El conversor tiene un formulario html que permite ingresar valores. El _binding_ permite
-relacionar un elemento visual con su correspondiente modelo de vista. En este caso el modelo de la vista es tan
-sencillo que coincide con un objeto de negocio: un Conversor de millas a kilómetros.
+El conversor tiene un formulario html que permite ingresar valores. El _binding_ permite relacionar un elemento visual con su correspondiente modelo de vista. En este caso el modelo de la vista es tan sencillo que coincide con un objeto de negocio: un Conversor de millas a kilómetros.
 
 El _binding_ puede ser:
 
@@ -64,13 +66,13 @@ El _binding_ puede ser:
 Dado que el binding bidireccional tiene un costo (a medida que incorporamos más controles el sistema de notificaciones crece en complejidad), es importante diferenciar ambos tipos de binding:
 
 ```html
-<input name="millas" class="form-control" [(ngModel)]="conversor.millas">  <!-- bidireccional-->
+<input name="millas" [(ngModel)]="conversor.millas">  <!-- bidireccional-->
 ```
 
 vs.
 
 ```html
-<p class="lead">{{conversor.kilometros}}</p>   <!-- unidireccional -->
+<p>{{conversor.kilometros}}</p>   <!-- unidireccional -->
 ```
 
 El binding de millas es "conversor.millas" lo que implica que en el modelo debe existir una referencia conversor (con una propiedad millas). Eso es lo que hacemos en la definición de nuestro componente:
@@ -114,7 +116,7 @@ Para lograr esto, tenemos que poder referenciar a un control de nuestro form htm
 Además hay que incorporar una anotación para el control de millas:
 
 ```html
-<input name="millas" class="form-control" required 
+<input name="millas" required 
     [(ngModel)]="conversor.millas" 
     #millas="ngModel"
 ```
@@ -124,7 +126,7 @@ Le decimos que el input millas es requerido (_required_) y además definimos una
 ```html
 <div *ngIf="millas.invalid && (millas.dirty || millas.touched)">
     <br>
-    <div class="alert alert-danger">
+    <div>
     Error:
         <span *ngIf="millas.errors.required">¡Debe ingresar millas!</span>
         <span *ngIf="millas.errors?.pattern">Formato debe ser numérico</span>
@@ -149,7 +151,7 @@ Entonces el ngIf mostrará el contenedor div de html si la condición encerrada 
 
 ## Pipes
 
-Un concepto similar a los _transformers_ de Arena son los [_pipes_](https://angular.io/guide/pipes) que permiten definir un formato con n decimales con coma, en lugar del punto que por defecto muestra Angular. 
+Los [_pipes_](https://angular.io/guide/pipes) permiten hacer transformaciones de nuestros objetos con el fin de cambiar su visualización. Por ejemplo un formato con n decimales con coma, en lugar del punto que por defecto muestra Angular. 
 
 Primero vamos a agregar el paquete [angular localize](https://angular.io/guide/i18n#add-the-localize-package): 
 
@@ -166,7 +168,7 @@ import '@angular/common/locales/global/es'
 Y ahora sí podemos utilizarlo en la vista, dentro del binding unidireccional para kilómetros:
 
 ```html
-<p class="lead" *ngIf="!millas.errors">{{conversor.kilometros | number:'1.3-3':'es' }}</p>
+<p *ngIf="!millas.errors">{{conversor.kilometros | number:'1.3-3':'es' }}</p>
 ```
 
 Este concepto permite dar formato al valor que se encuentra a la izquierda del pipe, en nuestro caso
