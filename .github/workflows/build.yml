@@ -36,6 +36,4 @@ jobs:
         uses: demyanets/angular-coverage-badges-action@v1
         with:
           coverage-summary-path: coverage/eg-conversor-angular/coverage-summary.json
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+          protected-branches: '["master"]'
