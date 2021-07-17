@@ -1,6 +1,6 @@
 # Conversor en Angular
 
-[![Build Status](https://www.travis-ci.org/uqbar-project/eg-conversor-angular.svg?branch=master)](https://www.travis-ci.org/uqbar-project/eg-conversor-angular)
+[![Build](https://github.com/uqbar-project/eg-conversor-angular/actions/workflows/build.yml/badge.svg)](https://github.com/uqbar-project/eg-conversor-angular/actions/workflows/build.yml)
 
 Este proyecto representa el clásico ejemplo del conversor de millas a kilómetros, generado con [Angular CLI](https://github.com/angular/angular-cli) versión 10.0.4, y modificado luego manualmente.
 
