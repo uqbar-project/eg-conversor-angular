@@ -24,6 +24,10 @@ ng s -o # serve y open abre directamente el browser
 
 Seguimos los pasos que están en [la página de inicio de Angular](https://angular.io/guide/quickstart)
 
+## Linter
+
+Configuramos el Linter en base a [esta página](https://dev.to/alexcamachogz/haz-tu-codigo-de-angular-elegante-con-eslint-y-prettier-1p7h).
+
 ## Estructura de una aplicación en Angular
 
 Toda aplicación tiene
