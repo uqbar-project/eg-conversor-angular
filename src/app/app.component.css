@@ -13,6 +13,10 @@
   color: var(--primary-color);
 }
 
+fieldset {
+  border: 0;
+}
+
 .form {
   width: 100%;
   padding: 0.5rem 10rem;
@@ -23,7 +27,9 @@
   font-size: 1.5rem;
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 1.5rem;
+  background: rgb(2,0,36);
+  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(190,195,244,1) 0%, rgba(233,241,242,1) 100%);
 }
 
 .form__label {
