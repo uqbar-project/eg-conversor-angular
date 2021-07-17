@@ -32,6 +32,11 @@ module.exports = function (config) {
         { type: 'text-summary' }
       ]
     },
+    coverageIstanbulReporter: {
+      dir: require('path').join(__dirname, '../../coverage'),
+      reports: ['html', 'lcovonly', 'text-summary', 'json-summary'],
+      fixWebpackSourcePaths: true
+    },    
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
@@ -40,5 +45,5 @@ module.exports = function (config) {
     browsers: ['Chrome'],
     singleRun: false,
     restartOnFileChange: true
-  });
-};
+  })
+}

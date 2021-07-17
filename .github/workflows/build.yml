@@ -32,4 +32,8 @@ jobs:
           npm ci
           npm run test:prod
           npm run lint
+      - name: Coverage badge
+        uses: demyanets/angular-coverage-badges-action@v1
+        with:
+          coverage-summary-path: coverage/stslib/coverage-summary.json
           
