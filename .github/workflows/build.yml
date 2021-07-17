@@ -38,3 +38,4 @@ jobs:
         with:
           coverage-summary-path: coverage/eg-conversor-angular/coverage-summary.json
           protected-branches: '["master"]'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
