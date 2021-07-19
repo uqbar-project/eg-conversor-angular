@@ -10,6 +10,9 @@ Desde el raíz del proyecto, en una consola, ejecutar:
 
 ```bash
 ng serve
+
+# o bien
+npm start
 ```
 
 Y en el navegador cargar la página `http://localhost:4200/`
