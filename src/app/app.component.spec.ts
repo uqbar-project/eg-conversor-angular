@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
 import { AppComponent } from './app.component'
 import { importsConversor } from './app.module'
 
+import './app.module'
+
 /** Imports extras tomados de @NgModule */
 describe('Tests de AppComponent', () => {
   let appComponent: ComponentFixture<AppComponent>
