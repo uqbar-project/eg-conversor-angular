@@ -9,27 +9,14 @@ Este proyecto representa el clásico ejemplo del conversor de millas a kilómetr
 Desde el raíz del proyecto, en una consola, ejecutar:
 
 ```bash
-ng serve
-
-# o bien
 npm start
 ```
 
 Y en el navegador cargar la página `http://localhost:4200/`
 
-O bien directamente ejecutar en la terminal:
-
-```bash
-ng s -o # serve y open abre directamente el browser
-```
-
 ## Generación inicial del proyecto
 
 Seguimos los pasos que están en [la página de inicio de Angular](https://angular.io/guide/quickstart)
-
-## Linter
-
-Configuramos el Linter en base a [esta página](https://dev.to/alexcamachogz/haz-tu-codigo-de-angular-elegante-con-eslint-y-prettier-1p7h).
 
 ## Estructura de una aplicación en Angular
 
@@ -52,10 +39,6 @@ Toda aplicación tiene
 ```
 
 Como es nuestro primer ejemplo, vamos a modificar el comportamiento de AppModule y AppComponent, que es el elemento inicial de nuestra aplicación en Angular. A futuro vamos a crear nuevos componentes y módulos.
-
-## CSS Custom
-
-En la versión 2020, comenzamos a utilizar una definición de estilos custom, en lugar de trabajar con el framework Bootstrap Twitter (que podés ver en [este branch](https://github.com/uqbar-project/eg-conversor-angular/tree/bootstrap)).
 
 # Conceptos principales
 
@@ -163,7 +146,7 @@ Los [_pipes_](https://angular.io/guide/pipes) permiten hacer transformaciones de
 Primero vamos a agregar el paquete [angular localize](https://angular.io/guide/i18n#add-the-localize-package): 
 
 ```bash
-ng add @angular/localize
+npm i @angular/localize
 ```
 
 Luego hay que importar la configuración regional española (también llamado _locale_ es) en el app.module.ts:
@@ -198,29 +181,19 @@ Angular trae un conjunto de tests al crear un proyecto, en este caso en el archi
 Podemos ejecutar la prueba automatizada desde una terminal (de línea de comandos o bien la integrada de nuestro IDE):
 
 ```bash
-> ng test --sourceMap=false --watch
+> npm test
 ```
 
-- la configuración `watch` es para que levante un browser de Chrome, se ejecuten los tests y luego quede esperando a modificaciones
-- el flag `sourceMap=false` permite mostrar mensajes de error expresivos cuando los tests tengan problemas de dependencia. Tenelo en cuenta si a veces te aparece un error críptico como
-
-```bash
-Failed to execute 'send' on 'XMLHttpRequest': Failed to load 'ng:///DynamicTestModule/AppComponent.ngfactory.js'
-```
-
-Los [source maps](https://www.html5rocks.com/en/tutorials/developertools/sourcemaps/) son archivos que en este caso relacionan
-
-- un archivo con definiciones hechas en Typescript
-- con el correspondiente [javascript transpilado](https://scotch.io/tutorials/javascript-transpilers-what-they-are-why-we-need-them), que es el que termina ejecutando en el user agent. Ejemplos similares de transpilación: Xtend -> Java, que tiene un archivo .xtend, otro .java y el .xtendbin que funciona como source map.
+la configuración de los tests levanta un browser de Chrome, se ejecutan y luego quedan esperando a modificaciones
 
 ### Dependencias
 
 Un tema importante a la hora de correr los tests es que lo hacen en forma independiente de la aplicación Angular, por lo tanto debemos inyectar las dependencias que están en el @NgModule (recordemos que en este ejemplo es el archivo _app.module.ts_).
 
-Para esto importamos la constante importsConversor que contiene los módulos BrowserModule y FormsModule.
+Para esto importamos la constante `importsConversor` que contiene los módulos BrowserModule y FormsModule.
 
 ```typescript
-import { importsConversor } from './app.module';
+import { importsConversor } from './app.module'
 ```
 - FormsModule lo necesitamos para poder levantar un mock de la pantalla
 
@@ -232,14 +205,16 @@ Veamos el primer test
 
 ```typescript
 describe('Tests de AppComponent', () => {
-  let appComponent
-  let componente
-  beforeEach(async(() => {
+  let appComponent: ComponentFixture<AppComponent>
+  let componente: { conversor: { millas: number } }
+
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({ declarations: [AppComponent], imports: importsConversor }).compileComponents()
     appComponent = TestBed.createComponent(AppComponent)
     componente = appComponent.debugElement.componentInstance
   }))
-  it('debe crear correctamente la aplicación', async(() => {
+
+  it('debe crear correctamente la aplicación', waitForAsync(() => {
     expect(componente).toBeTruthy()
   }))
 ```
@@ -247,41 +222,25 @@ describe('Tests de AppComponent', () => {
 En el método beforeEach inicializamos dos variables muy importantes para poder hacer pruebas
 
 - appComponent: un NgModule _mockeado_ por el componente de testing de Angular llamado TestBed
-- componente: una referencia a nuestro componente de Angular, también mockeado (fixture.debugElement nos devuelve una representación del modelo DOM de nuestro HTML, apta para hacer pruebas)
+- componente: una referencia a nuestro componente de Angular, también mockeado
 
-El primer test valida que el componente sea un valor posible ([truthy](https://developer.mozilla.org/es/docs/Glossary/Truthy), este test tiene sentido como **prueba de humo** de que cualquier cambio que introduzcamos no rompa el componente. Es un test básico de que la aplicación levanta.
+El primer test valida que el componente sea un valor posible ([truthy](https://developer.mozilla.org/es/docs/Glossary/Truthy), este test tiene sentido como **smoke test** de que cualquier cambio que introduzcamos no rompa el componente. Es un test básico de que la aplicación levanta.
 
 ## Tests que aplican sobre elementos del DOM inicial
 
-El siguiente test es ciertamente discutible: testear que el título sea "Conversor Angular" no nos dice demasiado sobre qué estamos probando para el negocio. Pero tiene sentido didáctico: ahora bien, ¿cómo buscamos el título? 
+Si queremos testear la conversión ¿cómo simulamos la carga de un valor? Tenemos que encontrar el input dentro de la página, las opciones son 
 
-- por el tag `<h1>`
-- por un atributo que tiene el tag, en este caso `data-testid`
-
-La primera opción tiene una desventaja: estamos utilizando como elemento de búsqueda para el test un tag que tiene sentido estético. El usuario puede pedirnos que utilicemos el tag `<title>` que semánticamente es más correcto, eso rompería el test de inmediato.
-
-La segunda opción es la que recomendamos nosotros, basado en [esta página](https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change). El prefijo `data-` hace que los navegadores lo ignoren en el render, pero los tests lo pueden utilizar. De esa manera no interfieren los atributos propios para mostrar la página vs. los atributos para testearla. Bueno, hay cierta intrusión porque si no tuviéramos tests tendríamos menos tags que leer, pero es un costo lo suficientemente justo.
+- por el tag `<input>`: tiene la desventaja de que el tag HTML tiene un sentido semántico y es visible por el usuario, está sujeto a cambios. Podemos cambiar un span por un div, o un button por un anchor (a href) y eso revela la fragilidad de nuestros tests.
+- por un id: si bien soporta mejor el cambio estético, sigue siendo algo que el navegador renderiza en la página.
+- por un atributo que tiene el tag, en este caso `data-testid`, será la opción que recomendemos nosotros, basado en [esta página](https://kentcdodds.com/blog/making-your-ui-tests-resilient-to-change). El prefijo `data-` hace que los navegadores lo ignoren en el render, pero los tests lo pueden utilizar. De esa manera no interfieren los atributos propios para mostrar la página vs. los atributos para testearla. Bueno, hay cierta intrusión porque si no tuviéramos tests tendríamos menos tags que leer, pero es un costo lo suficientemente justo.
 
 Nuestro html queda:
 
 ```html
-<h1 data-testid="titulo">Conversor <small>Angular</small></h1>
+<input data-testid="millas" name="millas" ...
 ```
 
 Y en los tests tendremos una función de alto nivel para buscar un elemento por `data-testid`:
-
-```typescript
-  it('el título debe ser Conversor Angular', async(() => {
-    expect(buscarElemento('titulo').textContent).toContain('Conversor Angular')
-  }))
-```
-
-Aquí tenemos que indagar en el DOM de la página html devuelta. Efectivamente nuestro "nativeElement" es una simplificación del DOM que parsea el browser, y dentro de esa jerarquía de elementos visuales que tiene el DOM podemos hacer la consulta [querySelector](https://www.w3schools.com/jsref/met_document_queryselector.asp), por
-
-- un tag específico (en este caso, 'h1')
-- por un identificador (anteponiendo un numeral)
-- por cualquier elemento que tenga una clase determinada (utilizando como prefijo un punto: '.')
-- o bien por cualquier otro atributo, como será nuestro caso
 
 ```ts
 const buscarElemento = (testId: string) => {
@@ -289,6 +248,13 @@ const buscarElemento = (testId: string) => {
   return compiled.querySelector(`[data-testid="${testId}"]`)
 }
 ```
+
+El _nativeElement_ es una simplificación del DOM que parsea el browser, y dentro de esa jerarquía de elementos visuales que tiene el DOM podemos hacer la consulta [querySelector](https://www.w3schools.com/jsref/met_document_queryselector.asp), por
+
+- un tag específico (en este caso, 'h1')
+- por un identificador (anteponiendo un numeral)
+- por cualquier elemento que tenga una clase determinada (utilizando como prefijo un punto: '.')
+- o bien por cualquier otro atributo, como será nuestro caso
 
 Un detalle importante es que la función está definida dentro del contexto de los tests, por eso la referencia appComponent existe. Si la definiéramos afuera tendríamos que recibir `appComponent` como parámetro de la función.
 
@@ -301,21 +267,29 @@ Por último, ¿qué sucede si ingresamos el valor 100? Nuestro valor esperado es
 
 El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los tests:
 
-```typescript
-it('conversión de millas a kilómetros exitosa con 3 decimales', async(() => {
-  componente.conversor.millas = 100
-
-  const convertirButton = buscarElemento('convertir')
-  convertirButton.click()
-  appComponent.detectChanges()
-
-  appComponent.whenStable().then(() => {
-    const resultado = buscarElemento('kilometros')
-    expect(resultado.textContent).toContain('160,934')
-  })
-}))
+```ts
+  it('conversión de millas a kilómetros exitosa con 3 decimales', waitForAsync(() => {
+      componente.conversor.millas = valor
+      convertir()
+      appComponent.whenStable().then(() => {
+      const resultado = buscarElemento('kilometros')
+      expect(resultado.textContent).toContain('160,934')
+    })
+  }))
 ```
 
-El mensaje `fixture.detectChanges()` es necesario para disparar los eventos de actualización de modelo a vista propios de Angular.
+En la solución encontrarás algunas abstracciones adicionales, aquí por motivos didácticos queremos concentrarnos en el flujo de interacciones:
+
+- cargamos un valor en el componente
+- luego simulamos que la persona usuaria presiona el botón "Convertir"
+
+Como necesitamos esperar a que se disparen los eventos de actualización del modelo a la vista para resolver el test, utilizamos esta construcción:
+
+```ts
+appComponent.whenStable().then(...
+```
+
+dentro del `then` buscamos los kilómetros y esperamos que el resultado sea la conversión correcta de millas a kilómetros. Más adelante veremos en qué consiste esta técnica.
+
 
 Para más información recomendamos leer [la documentación oficial de Angular](https://angular.io/guide/testing)

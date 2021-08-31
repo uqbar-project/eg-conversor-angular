@@ -8,7 +8,7 @@
         <fieldset>
             <div class="form--group">
                 <label for="millas" class="form__label">Millas</label>
-                <input name="millas" id="millas" class="form__control" data-testid="millas" required
+                <input data-testid="millas" name="millas" id="millas" class="form__control" autocomplete="off" required
                     [(ngModel)]="conversor.millas" (mouseover)="conversor.convertir()" #millas="ngModel"
                     pattern="^[0-9]+$" placeholder="Ingrese la cantidad de millas a convertir" autofocus="autofocus">
                 <div *ngIf="millas.invalid && (millas.dirty || millas.touched)">
