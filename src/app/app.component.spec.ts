@@ -21,16 +21,18 @@ describe('Tests de AppComponent', () => {
   }))
 
   it('conversión de millas a kilómetros exitosa con 3 decimales', waitForAsync(() => {
-    ingresarValor(100)
+    appComponent.detectChanges()
     appComponent.whenStable().then(() => {
+      ingresarValor(100)
       const resultado = buscarElemento('kilometros')
       expect(resultado.textContent).toContain('160,934')
     })
   }))
-
+  
   it('conversión de millas a kilómetros con valor cero', waitForAsync(() => {
-    ingresarValor(0)
+    appComponent.detectChanges()
     appComponent.whenStable().then(() => {
+      ingresarValor(0)
       const resultado = buscarElemento('kilometros')
       expect(resultado.textContent).toContain('0,000')
     })
@@ -43,7 +45,10 @@ describe('Tests de AppComponent', () => {
   }
 
   function ingresarValor(valor: number) {
-    componente.conversor.millas = valor
+    // componente.conversor.millas = valor
+    const millasInput = buscarElemento('millas')
+    millasInput.value = valor
+    millasInput.dispatchEvent(new Event('input'))
     // No buscamos un tag html h1, ni un span, ni nada que tenga que ver con cuestiones
     // estéticas, lo que semánticamente es una acción lo podemos buscar mediante un tag
     // específico para testear, el `data-testid` que se llame convertir
