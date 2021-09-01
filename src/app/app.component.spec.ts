@@ -24,6 +24,7 @@ describe('Tests de AppComponent', () => {
     appComponent.detectChanges()
     appComponent.whenStable().then(() => {
       ingresarValor(100)
+      convertir()
       const resultado = buscarElemento('kilometros')
       expect(resultado.textContent).toContain('160,934')
     })
@@ -33,6 +34,7 @@ describe('Tests de AppComponent', () => {
     appComponent.detectChanges()
     appComponent.whenStable().then(() => {
       ingresarValor(0)
+      convertir()
       const resultado = buscarElemento('kilometros')
       expect(resultado.textContent).toContain('0,000')
     })
@@ -49,13 +51,12 @@ describe('Tests de AppComponent', () => {
     const millasInput = buscarElemento('millas')
     millasInput.value = valor
     millasInput.dispatchEvent(new Event('input'))
+  }
+  
+  function convertir() {
     // No buscamos un tag html h1, ni un span, ni nada que tenga que ver con cuestiones
     // estéticas, lo que semánticamente es una acción lo podemos buscar mediante un tag
     // específico para testear, el `data-testid` que se llame convertir
-    convertir()
-  }
-
-  function convertir() {
     const convertirButton = buscarElemento('convertir')
     convertirButton.click()
     appComponent.detectChanges()
