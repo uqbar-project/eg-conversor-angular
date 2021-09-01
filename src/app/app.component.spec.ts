@@ -25,6 +25,7 @@ describe('Tests de AppComponent', () => {
     appComponent.whenStable().then(() => {
       ingresarValor(100)
       convertir()
+      appComponent.detectChanges()
       const resultado = buscarElemento('kilometros')
       expect(resultado.textContent).toContain('160,934')
     })
@@ -35,6 +36,7 @@ describe('Tests de AppComponent', () => {
     appComponent.whenStable().then(() => {
       ingresarValor(0)
       convertir()
+      appComponent.detectChanges()
       const resultado = buscarElemento('kilometros')
       expect(resultado.textContent).toContain('0,000')
     })
@@ -59,6 +61,5 @@ describe('Tests de AppComponent', () => {
     // específico para testear, el `data-testid` que se llame convertir
     const convertirButton = buscarElemento('convertir')
     convertirButton.click()
-    appComponent.detectChanges()
   }
 })
