@@ -9,7 +9,7 @@
   },
   "rules": {
     "semi": [
-      2,
+      "error",
       "never"
     ],
     "@typescript-eslint/explicit-function-return-type": "off",
