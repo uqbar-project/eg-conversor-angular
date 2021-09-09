@@ -10,37 +10,32 @@ describe('Tests de AppComponent', () => {
   let appComponent: ComponentFixture<AppComponent>
   let componente: { conversor: { millas: number } }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({ declarations: [AppComponent], imports: importsConversor }).compileComponents()
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({ declarations: [AppComponent], imports: importsConversor }).compileComponents()
     appComponent = TestBed.createComponent(AppComponent)
     componente = appComponent.debugElement.componentInstance
-  }))
+    appComponent.detectChanges()
+  })
 
-  it('debe crear correctamente la aplicación', waitForAsync(() => {
+  it('debe crear correctamente la aplicación', () => {
     expect(componente).toBeTruthy()
-  }))
+  })
 
-  it('conversión de millas a kilómetros exitosa con 3 decimales', waitForAsync(() => {
+  it('conversión de millas a kilómetros exitosa con 3 decimales', () => {
+    ingresarValor(100)
+    convertir()
     appComponent.detectChanges()
-    appComponent.whenStable().then(() => {
-      ingresarValor(100)
-      convertir()
-      appComponent.detectChanges()
-      const resultado = buscarElemento('kilometros')
-      expect(resultado.textContent).toContain('160,934')
-    })
-  }))
+    const resultado = buscarElemento('kilometros')
+    expect(resultado.textContent).toContain('160,934')
+  })
   
-  it('conversión de millas a kilómetros con valor cero', waitForAsync(() => {
+  it('conversión de millas a kilómetros con valor cero', () => {
+    ingresarValor(0)
+    convertir()
     appComponent.detectChanges()
-    appComponent.whenStable().then(() => {
-      ingresarValor(0)
-      convertir()
-      appComponent.detectChanges()
-      const resultado = buscarElemento('kilometros')
-      expect(resultado.textContent).toContain('0,000')
-    })
-  }))
+    const resultado = buscarElemento('kilometros')
+    expect(resultado.textContent).toContain('0,000')
+  })
 
   /* Función auxiliar que permite buscar un elemento por data-testid */
   function buscarElemento(testId: string) {
