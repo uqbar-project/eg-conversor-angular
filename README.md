@@ -208,11 +208,15 @@ describe('Tests de AppComponent', () => {
   let appComponent: ComponentFixture<AppComponent>
   let componente: { conversor: { millas: number } }
 
-  beforeEach(waitForAsync(() => {
-    TestBed.configureTestingModule({ declarations: [AppComponent], imports: importsConversor }).compileComponents()
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      imports: importsConversor
+    }).compileComponents()
     appComponent = TestBed.createComponent(AppComponent)
     componente = appComponent.debugElement.componentInstance
-  }))
+    appComponent.detectChanges()
+  })
 
   it('debe crear correctamente la aplicación', waitForAsync(() => {
     expect(componente).toBeTruthy()
@@ -268,28 +272,23 @@ Por último, ¿qué sucede si ingresamos el valor 100? Nuestro valor esperado es
 El resultado se captura del DOM como vimos anteriormente. Mostramos uno de los tests:
 
 ```ts
-  it('conversión de millas a kilómetros exitosa con 3 decimales', waitForAsync(() => {
-      componente.conversor.millas = valor
-      convertir()
-      appComponent.whenStable().then(() => {
-      const resultado = buscarElemento('kilometros')
-      expect(resultado.textContent).toContain('160,934')
-    })
-  }))
+  it('conversión de millas a kilómetros exitosa con 3 decimales', () => {
+    const millasInput = buscarElemento('millas')
+    millasInput.value = 100
+    millasInput.dispatchEvent(new Event('input'))
+
+    const convertirButton = buscarElemento('convertir')
+    convertirButton.click()
+
+    appComponent.detectChanges()
+    const resultado = buscarElemento('kilometros')
+    expect(resultado.textContent).toContain('160,934')
+  })
 ```
 
 En la solución encontrarás algunas abstracciones adicionales, aquí por motivos didácticos queremos concentrarnos en el flujo de interacciones:
 
 - cargamos un valor en el componente
 - luego simulamos que la persona usuaria presiona el botón "Convertir"
-
-Como necesitamos esperar a que se disparen los eventos de actualización del modelo a la vista para resolver el test, utilizamos esta construcción:
-
-```ts
-appComponent.whenStable().then(...
-```
-
-dentro del `then` buscamos los kilómetros y esperamos que el resultado sea la conversión correcta de millas a kilómetros. Más adelante veremos en qué consiste esta técnica.
-
 
 Para más información recomendamos leer [la documentación oficial de Angular](https://angular.io/guide/testing)
