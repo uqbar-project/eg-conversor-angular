@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { AppComponent } from './app.component'
 import { importsConversor } from './app.module'
@@ -11,7 +11,10 @@ describe('Tests de AppComponent', () => {
   let componente: { conversor: { millas: number } }
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ declarations: [AppComponent], imports: importsConversor }).compileComponents()
+    await TestBed.configureTestingModule({
+      declarations: [AppComponent],
+      imports: importsConversor
+    }).compileComponents()
     appComponent = TestBed.createComponent(AppComponent)
     componente = appComponent.debugElement.componentInstance
     appComponent.detectChanges()
@@ -28,7 +31,7 @@ describe('Tests de AppComponent', () => {
     const resultado = buscarElemento('kilometros')
     expect(resultado.textContent).toContain('160,934')
   })
-  
+
   it('conversión de millas a kilómetros con valor cero', () => {
     ingresarValor(0)
     convertir()
@@ -49,7 +52,7 @@ describe('Tests de AppComponent', () => {
     millasInput.value = valor
     millasInput.dispatchEvent(new Event('input'))
   }
-  
+
   function convertir() {
     // No buscamos un tag html h1, ni un span, ni nada que tenga que ver con cuestiones
     // estéticas, lo que semánticamente es una acción lo podemos buscar mediante un tag
