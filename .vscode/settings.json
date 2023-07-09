@@ -23,16 +23,5 @@
     },
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
-    },
-    "htmlhint.options": {
-        "attr-lowercase": [
-            "*ngIf",
-            "ngIf",
-            "*ngFor",
-            "ngFor",
-            "ngSwitch",
-            "ngModel"
-        ],
-        "doctype-first": false
-    },
+    }
 }
