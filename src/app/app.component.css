@@ -1,71 +1,71 @@
 .container {
-  --primary-color: #554e4e;
-  --primary-background-color: #3372e9;
-}
-
-.container {
-  font-family: 'Maven Pro', sans-serif;
-  font-size: 10px;
-}
-
-.container--title {
-  font-size: 2rem;
-  color: var(--primary-color);
-}
-
-fieldset {
-  border: 0;
-}
-
-.form {
-  width: 100%;
-  padding: 0.5rem 10rem;
-  box-sizing: border-box;
-}
-
-.form--group {
-  font-size: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem;
-  background: rgb(2,0,36);
-  background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(190,195,244,1) 0%, rgba(233,241,242,1) 100%);
-}
-
-.form__label {
-  font-size: 0.8em;
-}
-
-.form__control {
-  margin: 0.5em 0;
-  padding: 0.5em;
-  font-size: 0.8em;
-}
-
-.form__control:focus, .form__button--primary:focus {
-  outline: none;
-  border: 0;
-  box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
-  border-radius: 5px;
-  transition: all 0.3s ease;
-}
-
-.form__button--primary {
-  font-family: 'Maven Pro', sans-serif;
-  font-size: 1.5rem;
-  background-color: var(--primary-background-color);
-  color: white;
-  padding: 0.5rem;
-  border: 0;
-}
-
-.form__error, .form__button--primary {
-  border-radius: 10px;
-}
-
-.form__error {
-  border: 1px solid rgb(189, 37, 37);
-  color: rgb(189, 37, 37);
-  font-size: 0.8em;
-  padding: 0.5em;
-}
+    --primary-color: #554e4e;
+    --primary-background-color: #3372e9;
+  }
+  
+  .container {
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 10px;
+  }
+  
+  .container--title {
+    font-size: 2rem;
+    color: var(--primary-color);
+  }
+  
+  fieldset {
+    border: 0;
+  }
+  
+  .form {
+    width: 100%;
+    padding: 0.5rem 10rem;
+    box-sizing: border-box;
+  }
+  
+  .form--group {
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(190,195,244,1) 0%, rgba(233,241,242,1) 100%);
+  }
+  
+  .form__label {
+    font-size: 0.8em;
+  }
+  
+  .form__control {
+    margin: 0.5em 0;
+    padding: 0.5em;
+    font-size: 0.8em;
+  }
+  
+  .form__control:focus, .form__button--primary:focus {
+    outline: none;
+    border: 0;
+    box-shadow: 0 0 0 3px rgba(21, 156, 228, 0.4);
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+  
+  .form__button--primary {
+    font-family: 'Maven Pro', sans-serif;
+    font-size: 1.5rem;
+    background-color: var(--primary-background-color);
+    color: white;
+    padding: 0.5rem;
+    border: 0;
+  }
+  
+  .form__error, .form__button--primary {
+    border-radius: 10px;
+  }
+  
+  .form__error {
+    border: 1px solid rgb(189, 37, 37);
+    color: rgb(189, 37, 37);
+    font-size: 0.8em;
+    padding: 0.5em;
+  }

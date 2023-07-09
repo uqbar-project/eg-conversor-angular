@@ -14,8 +14,8 @@
                 <div *ngIf="millas.invalid && (millas.dirty || millas.touched)">
                     <div class="form__error" data-testid="errors">
                         Error:
-                        <span *ngIf="millas.errors?.required">¡Debe ingresar millas!</span>
-                        <span data-testid="numeric-format" *ngIf="millas.errors?.pattern">Formato debe ser
+                        <span *ngIf="millas.errors?.['required']">¡Debe ingresar millas!</span>
+                        <span data-testid="numeric-format" *ngIf="millas.errors?.['pattern']">Formato debe ser
                             numérico</span>
                     </div>
                 </div>
