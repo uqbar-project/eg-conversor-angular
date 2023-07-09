@@ -1,27 +1,38 @@
 {
-  "prettier.semi": false,
-  "[javascript]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "prettier.semi": false,
+    "[javascript]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      },
+      "editor.formatOnSave": true
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      },
+      "editor.formatOnSave": true
+    },
+    "[json]": {
+      "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+      },
+      "editor.formatOnSave": false
+    },
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true
     },
-    "editor.formatOnSave": true
-  },
-  "[typescript]": {
-    "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
+    "htmlhint.options": {
+        "attr-lowercase": [
+            "*ngIf",
+            "ngIf",
+            "*ngFor",
+            "ngFor",
+            "ngSwitch",
+            "ngModel"
+        ],
+        "doctype-first": false
     },
-    "editor.formatOnSave": true
-  },
-  "[json]": {
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true
-    },
-    "editor.formatOnSave": false
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
 }
