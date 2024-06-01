@@ -173,16 +173,3 @@ Podemos ejecutar la prueba automatizada desde una terminal (de línea de comando
 ```
 
 la configuración de los tests levanta un browser de Chrome, se ejecutan y luego quedan esperando a modificaciones
-
-### Dependencias
-
-Un tema importante a la hora de correr los tests es que lo hacen en forma independiente de la aplicación Angular, por lo tanto debemos inyectar las dependencias que están en el @NgModule (recordemos que en este ejemplo es el archivo _app.module.ts_).
-
-Para esto importamos la constante `importsConversor` que contiene los módulos BrowserModule y FormsModule.
-
-```typescript
-import { importsConversor } from './app.module'
-```
-- FormsModule lo necesitamos para poder levantar un mock de la pantalla
-
-Además tenemos otros imports que se crean por defecto cuando generamos nuestra aplicación con el comando ng: nuestro componente AppComponent y un _mockeador_ de nuestro componente llamado TestBed que más adelante explicaremos, entre otros.

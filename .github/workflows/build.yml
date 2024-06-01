@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v1
 
       - name: Cache node modules
-        uses: actions/cache@v1
+        uses: actions/cache@latest
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -24,7 +24,7 @@ jobs:
             ${{ runner.os }}-node-
 
       - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@latest
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -34,7 +34,7 @@ jobs:
           npm run test:prod
           npm run lint
       - name: Coverage badge
-        uses: demyanets/angular-coverage-badges-action@v1
+        uses: demyanets/angular-coverage-badges-action@latest
         with:
           coverage-summary-path: coverage/eg-conversor-angular/coverage-summary.json
           github_token: ${{ secrets.GITHUB_TOKEN }}

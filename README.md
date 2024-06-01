@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/uqbar-project/eg-conversor-angular/actions/workflows/build.yml/badge.svg)](https://github.com/uqbar-project/eg-conversor-angular/actions/workflows/build.yml) ![Coverage](./badges/eg-conversor-angular/coverage.svg)
 
-Este proyecto representa el clásico ejemplo del conversor de millas a kilómetros, generado con [Angular CLI](https://github.com/angular/angular-cli) versión 16, y modificado luego manualmente.
+Este proyecto representa el clásico ejemplo del conversor de millas a kilómetros, generado con [Angular CLI](https://github.com/angular/angular-cli) versión 18, y modificado luego manualmente.
 
 ## Cómo probarlo
 
@@ -20,23 +20,20 @@ npm start
 Veamos el primer test
 
 ```typescript
-describe('Tests de AppComponent', () => {
-  let appComponent: ComponentFixture<AppComponent>
-  let componente: { conversor: { millas: number } }
-
+describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: importsConversor
+      imports: [AppComponent]
     }).compileComponents()
-    appComponent = TestBed.createComponent(AppComponent)
-    componente = appComponent.debugElement.componentInstance
-    appComponent.detectChanges()
   })
 
-  it('debe crear correctamente la aplicación', waitForAsync(() => {
-    expect(componente).toBeTruthy()
-  }))
+  it('should create the app', () => {
+    const fixture = TestBed.createComponent(AppComponent)
+    const app = fixture.componentInstance
+    expect(app).toBeTruthy()
+  })
+
+})
 ```
 
 En el método beforeEach inicializamos dos variables muy importantes para poder hacer pruebas
@@ -107,4 +104,4 @@ En la solución encontrarás algunas abstracciones adicionales, aquí por motivo
 - cargamos un valor en el componente
 - luego simulamos que la persona usuaria presiona el botón "Convertir"
 
-Para más información recomendamos leer [la documentación oficial de Angular](https://angular.io/guide/testing)
+Para más información recomendamos leer [la documentación oficial de Angular](https://angular.dev/guide/testing)
