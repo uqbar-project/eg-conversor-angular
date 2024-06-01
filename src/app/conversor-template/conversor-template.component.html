@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<div class="container">
+    <div class="container--title">
+        <h1 data-testid="titulo">Conversor <small>Template</small></h1>
+    </div>
+
+    <form name="convertirForm" role="form" class="form">
+        <fieldset>
+            <div class="form--group">
+                <label for="millas" class="form__label">Millas</label>
+                <input data-testid="millas" name="millas" id="millas" class="form__control" autocomplete="off" required
+                    [(ngModel)]="conversor.millas" (mouseover)="conversor.convertir()" #millas="ngModel"
+                    pattern="^[0-9]+$" placeholder="Ingrese la cantidad de millas a convertir" autofocus="autofocus">
+                @if (millas.invalid && (millas.dirty || millas.touched)) {
+                    <div class="form__error" data-testid="errors">
+                        Error:
+                        @if (millas.errors?.['required']) {
+                            <span>¡Debe ingresar millas!</span>
+                        }
+                        @if (millas.errors?.['pattern']) {
+                            <span data-testid="numeric-format">Formato debe ser numérico</span>
+                        }
+                    </div>
+                }
+            </div>
+
+            <div class="form--group">
+                <div class="row">
+                    <button type="submit" id="convertir" class="form__button form__button--primary" data-testid="convertir"
+                        (click)="conversor.convertir()">Convertir</button>
+                    <button id="limpiar" class="form__button form__button--secondary" data-testid="reset"
+                        (click)="conversor.limpiar()">Limpiar</button>
+                </div>
+            </div>
+
+            <div class="form--group">
+                <label for="kilometros" class="form__label">Kilómetros</label>
+                @if (!millas.errors) {
+                    <p class="form__control" id="kilometros" data-testid="kilometros">
+                        {{conversor.kilometros | number:'1.3-3':'es' }}</p>
+                }
+            </div>
+        </fieldset>
+    </form>
+</div>
