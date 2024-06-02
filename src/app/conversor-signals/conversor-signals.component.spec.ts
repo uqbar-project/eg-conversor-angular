@@ -35,6 +35,16 @@ describe('Tests de AppComponent', () => {
     expect(resultado.textContent).toContain('0,000')
   })
 
+  it('al resetear volvemos a tener 0 en los valores', () => {
+    ingresarValor(100)
+    convertir()
+    appComponent.detectChanges()
+    buscarElemento('reset').click()
+    appComponent.detectChanges()
+    const resultado = buscarElemento('kilometros')
+    expect(resultado.textContent).toContain('0,000')
+  })
+
   /* Función auxiliar que permite buscar un elemento por data-testid */
   function buscarElemento(testId: string) {
     const compiled = appComponent.debugElement.nativeElement
