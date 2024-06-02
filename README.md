@@ -1,6 +1,6 @@
 # Conversor en Angular
 
-[![Build](https://github.com/uqbar-project/eg-conversor-angular/actions/workflows/build.yml/badge.svg)](https://github.com/uqbar-project/eg-conversor-angular/actions/workflows/build.yml) ![Coverage](./badges/eg-conversor-angular/coverage.svg)
+[![Build](https://github.com/uqbar-project/eg-conversor-angular/actions/workflows/build.yml/badge.svg)](https://github.com/uqbar-project/eg-conversor-angular/actions/workflows/build.yml) [![codecov](https://codecov.io/gh/uqbar-project/eg-conversor-angular/graph/badge.svg?token=JMjIlH9fYu)](https://codecov.io/gh/uqbar-project/eg-conversor-angular)
 
 Este proyecto representa el clásico ejemplo del conversor de millas a kilómetros, generado con [Angular CLI](https://github.com/angular/angular-cli) versión 18, y modificado luego manualmente.
 
