@@ -33,8 +33,5 @@ jobs:
           npm ci
           npm run test:prod
           npm run lint
-      - name: Coverage badge
-        uses: demyanets/angular-coverage-badges-action@v1
-        with:
-          coverage-summary-path: coverage/eg-conversor-angular/coverage-summary.json
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
