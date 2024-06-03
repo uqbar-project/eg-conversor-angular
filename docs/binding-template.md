@@ -102,14 +102,17 @@ Además hay que incorporar una anotación para el control de millas:
 Le decimos que el input millas es requerido (_required_) y además definimos una _template variable_ millas, que ahora podemos usar dentro del formulario html para preguntar si el input es válido o tiene errores específicos:
 
 ```html
-<div *ngIf="millas.invalid && (millas.dirty || millas.touched)">
-    <br>
-    <div>
-    Error:
-        <span *ngIf="millas.errors.required">¡Debe ingresar millas!</span>
-        <span *ngIf="millas.errors?.pattern">Formato debe ser numérico</span>
+@if (millas.invalid && (millas.dirty || millas.touched)) {
+    <div class="form__error" data-testid="errors">
+        Error:
+        @if (millas.errors?.['required']) {
+            <span>¡Debe ingresar millas!</span>
+        }
+        @if (millas.errors?.['pattern']) {
+            <span data-testid="numeric-format">Formato debe ser numérico</span>
+        }
     </div>
-</div>
+}
 ```
 
 Además de utilizar esta secuencia de caracteres:
@@ -117,15 +120,15 @@ Además de utilizar esta secuencia de caracteres:
 - `[()]` (_banana in a box_) para indicar binding bidireccional 
 - y `{{}}` (_moustache_) para indicar binding unidireccional 
 
-Tenemos el asterisco `*ngIf` que es una **directiva** propia de Angular para intercalar funcionalidades al html que es estático. Podemos acceder a la _template variable_ millas que anteriormente definimos, y consultar algunas propiedades:
+Tenemos el bloque `@if` que es una solución que ofrece Angular para intercalar condicionalmente funcionalidades al html que es estático. Podemos acceder a la _template variable_ millas que anteriormente definimos, y consultar algunas propiedades:
 
 - invalid: dice si el valor definido en dicho campo es correcto (también existe _valid_)
 - dirty: si el usuario modificó el valor (el opuesto es _pristine_)
 - touched: si el usuario pasó por ese control y saltó a otro (el opuesto es _untouched_) 
 
-Para más información recomendamos leer [la página de validación de formularios de Angular](https://angular.io/guide/forms).
+Para más información recomendamos leer [la página sobre validación de formularios de Angular](https://angular.dev/guide/forms/template-driven-forms).
 
-Entonces el ngIf mostrará el contenedor div de html si la condición encerrada entre las comillas se cumple.
+Entonces el bloque @if mostrará el contenedor div de html si la condición encerrada entre las comillas se cumple.
 
 ## Pipes
 
@@ -146,7 +149,11 @@ import '@angular/common/locales/global/es'
 Y ahora sí podemos utilizarlo en la vista, dentro del binding unidireccional para kilómetros:
 
 ```html
-<p *ngIf="!millas.errors">{{conversor.kilometros | number:'1.3-3':'es' }}</p>
+@if (!millas.errors) {
+    <p class="form__control" id="kilometros" data-testid="kilometros">
+        {{kilometros() | number:'1.3-3':'es' }}
+    </p>
+}
 ```
 
 Este concepto permite dar formato al valor que se encuentra a la izquierda del pipe, en nuestro caso
