@@ -1,0 +1,13 @@
+* {
+  font-family: 'Inter', sans-serif;
+  --primary-color: #554e4e;
+}
+
+html {
+  font-size: 10px;
+}
+
+.container--title {
+  font-size: 2rem;
+  color: var(--primary-color);
+}
