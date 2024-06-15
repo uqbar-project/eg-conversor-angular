@@ -4,7 +4,7 @@ En el navegador cargar la página `http://localhost:4200/`
 
 ## Generación inicial del proyecto
 
-Seguimos los pasos que están en [la página de inicio de Angular](https://angular.io/guide/quickstart)
+Seguimos los pasos que están en [la página de inicio de Angular](https://angular.dev/tutorials/first-app)
 
 ## Estructura de una aplicación en Angular
 
