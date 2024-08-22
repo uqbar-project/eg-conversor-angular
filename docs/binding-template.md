@@ -8,25 +8,24 @@ Seguimos los pasos que están en [la página de inicio de Angular](https://angul
 
 ## Estructura de una aplicación en Angular
 
-Toda aplicación tiene
-
-- módulos, que agrupan funcionalidades
-- componentes, que encapsulan una asociación vista (HTML)-modelo (en este caso en TypeScript) y que por defecto vienen acompañados de tests (*.spec, en TypeScript). Opcionalmente también tenemos un archivo de estilos asociado (css)
+Toda aplicación tiene 
+- componentes, que encapsulan una asociación vista (HTML)
+- modelo (en este caso en TypeScript) 
+- que por defecto vienen acompañados de tests (*.spec, en TypeScript)
+- opcionalmente también tenemos un archivo de estilos asociado (css)
 
 ```bash
 (nodo raíz)
  + src
    + app
-     - app.component.css       -- estilos para el componente app
-     - app.component.html      -- vista
-     - app.component.spec.ts   -- test
-     - app.component.ts        -- componente que relaciona vista y su modelo (un objeto de dominio)
-     - app.module.ts           -- módulo
-   + domain
-     - conversor.ts            -- objeto de dominio
+     + componentote
+       - app.componentote.css       -- estilos para el componente app
+       - app.componentote.html      -- vista
+       - app.componentote.spec.ts   -- test
+       - app.componentote.ts        -- componente que relaciona vista y su modelo (un objeto de dominio)
 ```
 
-Como es nuestro primer ejemplo, vamos a modificar el comportamiento de AppModule y AppComponent, que es el elemento inicial de nuestra aplicación en Angular. A futuro vamos a crear nuevos componentes y módulos.
+En este primer ejemplo podemos ver además [`app.routes.ts`](../src/app/app.routes.ts) que es el archivo que define dos rutas para tener al mismo tiempo las variantes con binding y con signals. Por ahora profundizaremos en el primer approach.
 
 # Conceptos principales
 
